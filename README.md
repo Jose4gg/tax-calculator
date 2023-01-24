@@ -2,8 +2,8 @@
 
 ## Usage
 
-- yarn start
+- `yarn start`
 
 ## Run test
 
-- npm run test or yarn test
+- `npm run test` or `yarn test`
