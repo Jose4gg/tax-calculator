@@ -17,7 +17,7 @@ export class TaxCalculatorService {
     return this.items.reduce((acc, item) => acc + item.total, 0);
   }
 
-  generateReport(): string {
+  get receipt(): string {
     const itemsAsString = this.items
       .map(
         (item) =>

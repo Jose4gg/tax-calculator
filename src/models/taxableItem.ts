@@ -1,5 +1,6 @@
 import { GENERAL_TAX, IMPORT_TAX } from '../constants/tax';
 import { assert } from '../utils/assert';
+import { roundToTheNearest } from '../utils/roundToTheNearest';
 import { Product } from './product';
 
 export class TaxableItem {
@@ -30,17 +31,27 @@ export class TaxableItem {
     assert(this.quantity > 0, 'Quantity cannot be negative or NaN');
   }
 
+  get subtotal(): number {
+    return this.product.price * this.quantity;
+  }
+
   get tax(): number {
-    const generalTax = this.product.exempted
-      ? 0
-      : this.product.price * GENERAL_TAX;
+    let taxRate = 0;
 
-    const importTax = this.imported ? this.product.price * IMPORT_TAX : 0;
+    if (!this.product.exempted) {
+      taxRate += GENERAL_TAX;
+    }
 
-    return (generalTax + importTax) * this.quantity;
+    if (this.imported) {
+      taxRate += IMPORT_TAX;
+    }
+
+    return (
+      roundToTheNearest(this.product.price * taxRate, taxRate) * this.quantity
+    );
   }
 
   get total(): number {
-    return this.product.price * this.quantity + this.tax;
+    return this.subtotal + this.tax;
   }
 }

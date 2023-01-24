@@ -32,8 +32,7 @@ readline.on('line', (cmd) => {
 
 readline.on('close', () => {
   const taxService = new TaxCalculatorService(input);
-  console.log(taxService.generateReport());
+  console.log(taxService.receipt);
 
-  // TODO: Calculate the tax and print the output
   process.exit(0);
 });
